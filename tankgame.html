@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8/">
+</head>
+<body onkeydown="getCommand()">
+<h1>html5-经典的坦克大战</h1>
+<canvas id="tankMap" width="400px" height="300px" style="background-color:black"></canvas>
+<script type="text/javascript" src="tankgame.js"></script>
+<script type="text/javascript">
+
+
+var canvas1=document.getElementById('tankMap');
+var cxt=canvas1.getContext("2d");
+
+//我的坦克
+var hero=new Hero(40,40,0,herocolor);
+//我的子弹（数组）
+var bullets=new Array();
+
+//敌人的坦克 
+var enemys=new Array();
+for (var i = 0; i < 3; i++) {
+	var enemy=new Enemy((i+1)*50,0,2,enemycolor);
+	enemys[i]=enemy;
+	
+}
+
+
+//专门写一个函数来刷新作战区，把要在作战区出现的元素都画一遍
+
+flashTankMap();
+function flashTankMap(){
+
+		cxt.clearRect(0,0,400,300)
+drawtank(hero);
+//我的子弹
+drawBullet();
+for (var i = 0; i < 3; i++) {
+drawtank(enemys[i]);
+	}	
+drawtank(hero);
+}
+
+function getCommand(){
+	var code=event.keyCode;
+	switch(code){
+		case 87:
+		hero.moveUp();
+		break;
+		case 68:
+		hero.moveRight();
+		break;
+		case 83:
+		hero.moveDown();
+		break;
+		case 65:
+		hero.moveLeft();
+		break;
+		case 74:
+		hero.shot();
+		break;
+
+	}
+flashTankMap();
+}
+window.setInterval("flashTankMap()",100);
+</script>
+</body>
+</html>
